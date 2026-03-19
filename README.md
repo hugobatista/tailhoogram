@@ -18,7 +18,7 @@ Can be deployed on Cloudflare Workers, even with the free tier.
 
 ```bash
 # Install
-uv sync
+uv sync --all-extras
 
 # Configure (.env file)
 TAILSCALE_WEBHOOK_SECRET=your-secret
