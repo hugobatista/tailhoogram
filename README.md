@@ -92,8 +92,3 @@ Details:
   url: https://login.tailscale.com/admin/acls
   actor: hugobatista
 ```
-
-
-## License
-
-MIT
