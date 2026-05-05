@@ -9,18 +9,5 @@
   ],
   "observability": {
     "enabled": true
-  },
-  "cloudflare": {
-    "bindings": {
-      "TAILSCALE_WEBHOOK_SECRET": {
-        "description": "Tailscale Webhook Secret from the Tailscale dashboard Webhooks page."
-      },
-      "TELEGRAM_BOT_TOKEN": {
-        "description": "Telegram bot token created with @BotFather."
-      },
-      "TELEGRAM_CHAT_ID": {
-        "description": "Telegram destination chat ID, either a numeric ID or an @username."
-      }
-    }
   }
 }
