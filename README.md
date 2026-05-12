@@ -92,6 +92,23 @@ Details:
   actor: hugobatista
 ```
 
+## Using VSCode Dev Containers
+This project includes a VSCode Dev Container configuration for easy local development. It sets up a consistent environment with all dependencies installed.
+
+### SELinux Users (ex: Fedora, RHEL, CentOS)
+If you encounter permission issues with the dev container, you may need to adjust your SELinux policies, by relabeling the project directory with s0 and container_file_t contexts:
+
+```bash
+sudo chcon -Rt container_file_t -l s0 ./tailhoogram
+# this command recursively changes the context of all files in the project directory to be accessible by the container
+```
+To restore the original context after development, you can use:
+
+```bash
+sudo restorecon -RvF ./tailhoogram
+# this command recursively restores the default SELinux context for all files in the project directory
+```
+
 
 ## License
 
