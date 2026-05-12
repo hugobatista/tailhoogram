@@ -2,6 +2,7 @@
 [![Test](https://go.hugobatista.com/gh/tailhoogram/actions/workflows/test.yml/badge.svg)](https://go.hugobatista.com/gh/tailhoogram/actions/workflows/test.yml)
 [![Lint](https://go.hugobatista.com/gh/tailhoogram/actions/workflows/lint.yml/badge.svg)](https://go.hugobatista.com/gh/tailhoogram/actions/workflows/lint.yml)
 
+[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/hugobatista/tailhoogram)
 # TailHoogram
 
 **Sends Tailscale events to Telegram using Cloudflare Workers**
@@ -108,8 +109,3 @@ To restore the original context after development, you can use:
 sudo restorecon -RvF ./tailhoogram
 # this command recursively restores the default SELinux context for all files in the project directory
 ```
-
-
-## License
-
-MIT
