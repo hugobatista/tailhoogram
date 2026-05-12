@@ -19,7 +19,7 @@ Can be deployed on Cloudflare Workers, even with the free tier.
 
 ```bash
 # Install
-uv sync
+uv sync --extra dev
 
 # Configure (.env file)
 TAILSCALE_WEBHOOK_SECRET=your-secret
@@ -91,4 +91,21 @@ Time: 2026-02-15T09:33:14.089607+00:00
 Details:
   url: https://login.tailscale.com/admin/acls
   actor: hugobatista
+```
+
+## Using VSCode Dev Containers
+This project includes a VSCode Dev Container configuration for easy local development. It sets up a consistent environment with all dependencies installed.
+
+### SELinux Users (ex: Fedora, RHEL, CentOS)
+If you encounter permission issues with the dev container, you may need to adjust your SELinux policies, by relabeling the project directory with s0 and container_file_t contexts:
+
+```bash
+sudo chcon -Rt container_file_t -l s0 ./tailhoogram
+# this command recursively changes the context of all files in the project directory to be accessible by the container
+```
+To restore the original context after development, you can use:
+
+```bash
+sudo restorecon -RvF ./tailhoogram
+# this command recursively restores the default SELinux context for all files in the project directory
 ```
