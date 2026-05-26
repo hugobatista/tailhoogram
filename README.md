@@ -3,7 +3,7 @@
 [![Lint](https://go.hugobatista.com/gh/tailhoogram/actions/workflows/lint.yml/badge.svg)](https://go.hugobatista.com/gh/tailhoogram/actions/workflows/lint.yml)
 
 [![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/hugobatista/tailhoogram)
-# TailHoogram
+# TailHoogram 📡
 
 **Sends Tailscale events to Telegram using Cloudflare Workers**
 
