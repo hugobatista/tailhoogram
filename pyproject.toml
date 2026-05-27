@@ -23,7 +23,7 @@ dependencies = [
     "python-dotenv>=1.0.0",
 ]
 
-[project.optional-dependencies]
+[dependency-groups]
 dev = [
     "black>=23.0.0",
     "pytest>=7.4.0",
@@ -123,7 +123,7 @@ ignore_missing_imports = true
 path = ".venv"
 type = "virtual"
 skip-install = false
-features = ["dev"]
+dependency-groups = ["dev"]
 
 [tool.hatch.envs.default.env-vars]
 PYTHONPATH = "src"
