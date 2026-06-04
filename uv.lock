@@ -1277,6 +1277,7 @@ test = [
     { name = "pytest" },
     { name = "pytest-asyncio" },
     { name = "pytest-cov" },
+    { name = "uvicorn", extra = ["standard"] },
 ]
 
 [package.metadata]
@@ -1314,6 +1315,7 @@ test = [
     { name = "pytest", specifier = ">=7.4.0" },
     { name = "pytest-asyncio", specifier = ">=0.21.0" },
     { name = "pytest-cov", specifier = ">=4.1.0" },
+    { name = "uvicorn", extras = ["standard"], specifier = ">=0.24.0" },
 ]
 
 [[package]]
