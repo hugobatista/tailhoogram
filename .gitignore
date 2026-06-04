@@ -51,10 +51,6 @@ htmlcov/
 .env.*.local
 
 
-# Hatch
-.hatch/
-uv.lock
-
 # Build artifacts
 dist/
 build/
