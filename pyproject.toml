@@ -24,15 +24,23 @@ dependencies = [
 ]
 
 [dependency-groups]
-dev = [
+lint = [
+    "hatch>=1.16.5",
     "black>=23.0.0",
+    "mypy>=1.6.0",
+    "ruff>=0.1.0",
+    "types-pyyaml>=6.0.12",
+    "types-requests>=2.31.0",
+]
+test = [
+    "hatch>=1.16.5",
     "pytest>=7.4.0",
     "pytest-asyncio>=0.21.0",
     "pytest-cov>=4.1.0",
-    "ruff>=0.1.0",
-    "mypy>=1.6.0",
-    "types-pyyaml>=6.0.12",
-    "types-requests>=2.31.0",
+]
+dev = [
+    {include-group = "lint"},
+    {include-group = "test"},
     "uvicorn[standard]>=0.24.0",
     "workers-py",
     "workers-runtime-sdk",
@@ -93,6 +101,7 @@ fixable = ["ALL"]
 
 [tool.mypy]
 python_version = "3.12"
+incremental = false
 mypy_path = "src"
 explicit_package_bases = true
 namespace_packages = true
@@ -130,13 +139,14 @@ PYTHONPATH = "src"
 
 [tool.hatch.envs.default.scripts]
 dev = "uvicorn main:app --reload --host 0.0.0.0 --port 8000"
-test = "pytest {args}"
-test-cov = "pytest --cov-report=html {args}"
 lint = "ruff check {args:src tests} --fix"
 format = "black src tests"
+lint-check = "ruff check {args:src tests}"
 format-check = "black --check src tests"
-type-check = "mypy {args:src tests}"
-check = ["format", "lint"]
+test = "pytest"
+typecheck = "mypy {args:src tests}"
+validate = ["lint", "format", "test", "typecheck"]
+check = ["lint-check", "format-check", "test", "typecheck"]
 
 [tool.hatch.build.targets.sdist]
 include = [
