@@ -132,9 +132,7 @@ def create_app(
     @app.post("/events", status_code=status.HTTP_202_ACCEPTED)
     async def webhook_tailscale(
         request: Request,
-        tailscale_webhook_signature: str = Header(
-            ..., alias="Tailscale-Webhook-Signature"
-        ),
+        tailscale_webhook_signature: str = Header(..., alias="Tailscale-Webhook-Signature"),
     ) -> JSONResponse:
         """
         Receive and process Tailscale webhooks.

@@ -6,9 +6,7 @@ import sys
 from types import ModuleType
 
 
-def _reload_init_module(
-    monkeypatch, *, version_value: str = "1.2.3", raise_version: bool = False
-):
+def _reload_init_module(monkeypatch, *, version_value: str = "1.2.3", raise_version: bool = False):
     """Reload __init__ module with patched metadata version."""
     import importlib.metadata as metadata
 
@@ -51,9 +49,7 @@ def test_console_handler_uses_console(monkeypatch):
 
     handler = module.ConsoleHandler()
     handler.setFormatter(logging.Formatter("%(message)s"))
-    record = logging.LogRecord(
-        "test", logging.WARNING, __file__, 1, "hello", None, None
-    )
+    record = logging.LogRecord("test", logging.WARNING, __file__, 1, "hello", None, None)
 
     handler.emit(record)
 
@@ -172,15 +168,9 @@ def test_console_handler_error_critical_debug(monkeypatch):
     handler = module.ConsoleHandler()
     handler.setFormatter(logging.Formatter("%(message)s"))
 
-    error_record = logging.LogRecord(
-        "test", logging.ERROR, __file__, 1, "err", None, None
-    )
-    critical_record = logging.LogRecord(
-        "test", logging.CRITICAL, __file__, 1, "crit", None, None
-    )
-    debug_record = logging.LogRecord(
-        "test", logging.DEBUG, __file__, 1, "dbg", None, None
-    )
+    error_record = logging.LogRecord("test", logging.ERROR, __file__, 1, "err", None, None)
+    critical_record = logging.LogRecord("test", logging.CRITICAL, __file__, 1, "crit", None, None)
+    debug_record = logging.LogRecord("test", logging.DEBUG, __file__, 1, "dbg", None, None)
 
     handler.emit(error_record)
     handler.emit(critical_record)

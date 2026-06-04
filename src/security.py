@@ -61,9 +61,7 @@ def validate_timestamp(timestamp: int, tolerance_seconds: int = 300) -> bool:
         return False
 
     if age > tolerance_seconds:
-        logger.warning(
-            f"Timestamp too old (age: {age}s, tolerance: {tolerance_seconds}s)"
-        )
+        logger.warning(f"Timestamp too old (age: {age}s, tolerance: {tolerance_seconds}s)")
         return False
 
     return True

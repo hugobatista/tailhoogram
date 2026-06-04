@@ -107,14 +107,10 @@ class TelegramNotificationChannel:
             )
 
             if response.status_code == 200:
-                logger.info(
-                    f"Successfully sent Telegram notification for event {payload.event_type}"
-                )
+                logger.info(f"Successfully sent Telegram notification for event {payload.event_type}")
                 return True
             else:
-                logger.error(
-                    f"Telegram API error: {response.status_code} - {response.text}"
-                )
+                logger.error(f"Telegram API error: {response.status_code} - {response.text}")
                 return False
 
         except httpx.RequestError as e:

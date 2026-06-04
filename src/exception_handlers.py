@@ -16,17 +16,13 @@ class WebhookVerificationError(Exception):
     pass
 
 
-async def webhook_verification_error_handler(
-    request: Request, exc: WebhookVerificationError
-) -> JSONResponse:
+async def webhook_verification_error_handler(request: Request, exc: WebhookVerificationError) -> JSONResponse:
     """
     Handle webhook verification errors.
 
     Returns 401 Unauthorized to indicate invalid signature/timestamp.
     """
-    logger.warning(
-        f"Webhook verification failed for {request.method} {request.url.path}"
-    )
+    logger.warning(f"Webhook verification failed for {request.method} {request.url.path}")
     return JSONResponse(
         status_code=status.HTTP_401_UNAUTHORIZED,
         content={"detail": "Invalid webhook signature or timestamp"},
@@ -39,9 +35,7 @@ async def generic_exception_handler(request: Request, exc: Exception) -> JSONRes
 
     Returns 500 Internal Server Error. Tailscale will retry.
     """
-    logger.exception(
-        f"Unexpected error processing {request.method} {request.url.path}: {exc}"
-    )
+    logger.exception(f"Unexpected error processing {request.method} {request.url.path}: {exc}")
     return JSONResponse(
         status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
         content={"detail": "Internal server error"},

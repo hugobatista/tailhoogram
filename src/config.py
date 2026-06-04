@@ -62,9 +62,7 @@ class Config:
         try:
             tolerance = int(tolerance_str)
         except ValueError:
-            logger.warning(
-                f"Invalid WEBHOOK_TIMESTAMP_TOLERANCE_SECONDS: {tolerance_str}, using default 300"
-            )
+            logger.warning(f"Invalid WEBHOOK_TIMESTAMP_TOLERANCE_SECONDS: {tolerance_str}, using default 300")
             tolerance = 300
 
         # Load required Telegram config

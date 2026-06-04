@@ -25,20 +25,18 @@ dependencies = [
 
 [dependency-groups]
 lint = [
-    "hatch>=1.16.5",
-    "black>=23.0.0",
     "mypy>=1.6.0",
     "ruff>=0.1.0",
     "types-pyyaml>=6.0.12",
     "types-requests>=2.31.0",
 ]
 test = [
-    "hatch>=1.16.5",
     "pytest>=7.4.0",
     "pytest-asyncio>=0.21.0",
     "pytest-cov>=4.1.0",
 ]
 dev = [
+    "hatch>=1.16.5",
     {include-group = "lint"},
     {include-group = "test"},
     "uvicorn[standard]>=0.24.0",
@@ -98,6 +96,11 @@ select = ["E", "F", "W", "I", "N", "UP", "B"]
 ignore = []
 fixable = ["ALL"]
 
+[tool.ruff.format]
+quote-style = "double"
+
+[tool.uv]
+required-version = "0.11.18"
 
 [tool.mypy]
 python_version = "3.12"
@@ -140,9 +143,9 @@ PYTHONPATH = "src"
 [tool.hatch.envs.default.scripts]
 dev = "uvicorn main:app --reload --host 0.0.0.0 --port 8000"
 lint = "ruff check {args:src tests} --fix"
-format = "black src tests"
+format = "ruff format ."
 lint-check = "ruff check {args:src tests}"
-format-check = "black --check src tests"
+format-check = "ruff format --check ."
 test = "pytest"
 typecheck = "mypy {args:src tests}"
 validate = ["lint", "format", "test", "typecheck"]

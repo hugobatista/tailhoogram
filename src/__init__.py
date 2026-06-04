@@ -65,9 +65,7 @@ def setup_logging(log_level: str = "INFO") -> None:
     handler = ConsoleHandler()
 
     # Set formatter
-    formatter = logging.Formatter(
-        "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-    )
+    formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
     handler.setFormatter(formatter)
 
     # Add handler to root logger

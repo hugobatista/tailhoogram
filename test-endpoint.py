@@ -12,10 +12,12 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Parse command line arguments
-parser = argparse.ArgumentParser(description='Test Tailscale webhook')
+parser = argparse.ArgumentParser(description="Test Tailscale webhook")
 parser.add_argument(
-    '--endpoint', type=str, default='localhost:8000',
-    help='Host:port for the webhook endpoint (default: localhost:8000)'
+    "--endpoint",
+    type=str,
+    default="localhost:8000",
+    help="Host:port for the webhook endpoint (default: localhost:8000)",
 )
 args = parser.parse_args()
 
@@ -39,7 +41,7 @@ event = {
         "actor": "user@example.com",
         "nodeID": "12345",
         "nodeName": "my-laptop",
-    }
+    },
 }
 
 # Create request body (array of events)
@@ -52,16 +54,7 @@ signature = hmac.new(secret_bytes, signing_string, hashlib.sha256).hexdigest()
 
 # Construct curl command
 url = f"http://{args.endpoint}/events"
-headers = [
-    f"Tailscale-Webhook-Signature: t={timestamp},v1={signature}",
-    "Content-Type: application/json"
-]
+headers = [f"Tailscale-Webhook-Signature: t={timestamp},v1={signature}", "Content-Type: application/json"]
 
 # Execute curl command
-subprocess.run([
-    "curl", "-X", "POST", url,
-    "-H", headers[0],
-    "-H", headers[1],
-    "-d", body,
-    "-v"
-])
+subprocess.run(["curl", "-X", "POST", url, "-H", headers[0], "-H", headers[1], "-d", body, "-v"])

@@ -25,9 +25,7 @@ class TestWebhookEndpoint:
         # Should fail because header is required
         assert response.status_code in [422, 401]  # Depends on FastAPI validation
 
-    def test_webhook_invalid_signature(
-        self, client, sample_webhook_body, webhook_secret_bytes
-    ):
+    def test_webhook_invalid_signature(self, client, sample_webhook_body, webhook_secret_bytes):
         """Test webhook rejects invalid signature."""
         bad_signature = "t=999999999,v1=badbadbadbadbadbadbadbadbadbadbadbadbadbadbadbadbadbadbadbadbadb"
 
@@ -39,15 +37,11 @@ class TestWebhookEndpoint:
 
         assert response.status_code == 401
 
-    def test_webhook_old_timestamp(
-        self, client, sample_webhook_body, webhook_secret_bytes
-    ):
+    def test_webhook_old_timestamp(self, client, sample_webhook_body, webhook_secret_bytes):
         """Test webhook rejects old timestamps."""
         # Create signature with old timestamp (>5 minutes)
         old_timestamp = int(time.time()) - 600
-        old_signature = create_valid_signature(
-            old_timestamp, sample_webhook_body, webhook_secret_bytes
-        )
+        old_signature = create_valid_signature(old_timestamp, sample_webhook_body, webhook_secret_bytes)
 
         response = client.post(
             API_URL,
@@ -69,15 +63,11 @@ class TestWebhookEndpoint:
 
         assert response.status_code == 401  # Failed JSON validation
 
-    def test_webhook_tampered_body(
-        self, client, sample_webhook_body, webhook_secret_bytes
-    ):
+    def test_webhook_tampered_body(self, client, sample_webhook_body, webhook_secret_bytes):
         """Test webhook detects tampered body."""
         # Create valid signature for one body
         timestamp = int(time.time())
-        valid_sig = create_valid_signature(
-            timestamp, sample_webhook_body, webhook_secret_bytes
-        )
+        valid_sig = create_valid_signature(timestamp, sample_webhook_body, webhook_secret_bytes)
 
         # Send different body with same signature
         tampered_body = b'[{"type": "tampered"}]'
@@ -109,9 +99,7 @@ class TestWebhookEndpoint:
         assert response_data["status"] == "accepted"
         assert "request_id" in response_data
 
-    def test_webhook_response_includes_request_id(
-        self, client, valid_signature, sample_webhook_body
-    ):
+    def test_webhook_response_includes_request_id(self, client, valid_signature, sample_webhook_body):
         """Test webhook response includes request ID."""
         mock_channel = MagicMock()
         mock_channel.send = AsyncMock(return_value=True)
@@ -126,9 +114,7 @@ class TestWebhookEndpoint:
         assert "X-Request-ID" in response.headers
         assert response.json()["request_id"]
 
-    def test_webhook_multiple_events(
-        self, client, valid_signature, sample_tailscale_event, webhook_secret_bytes
-    ):
+    def test_webhook_multiple_events(self, client, valid_signature, sample_tailscale_event, webhook_secret_bytes):
         """Test webhook handles multiple events."""
         # Create request with multiple events
         events = [sample_tailscale_event, sample_tailscale_event]
@@ -143,9 +129,7 @@ class TestWebhookEndpoint:
             response = client.post(
                 API_URL,
                 content=body,
-                headers={
-                    "Tailscale-Webhook-Signature": f"t={timestamp},v1={signature.split('v1=')[1]}"
-                },
+                headers={"Tailscale-Webhook-Signature": f"t={timestamp},v1={signature.split('v1=')[1]}"},
             )
 
         assert response.status_code == 202
@@ -165,9 +149,7 @@ class TestWebhookEndpoint:
 
         assert response.status_code == 401
 
-    def test_webhook_send_failure_returns_500(
-        self, client, valid_signature, sample_webhook_body
-    ):
+    def test_webhook_send_failure_returns_500(self, client, valid_signature, sample_webhook_body):
         """Test webhook returns 500 when notifications fail."""
         mock_channel = MagicMock()
         mock_channel.send = AsyncMock(return_value=False)
@@ -182,9 +164,7 @@ class TestWebhookEndpoint:
         assert response.status_code == 500
         assert response.json()["status"] == "failed"
 
-    def test_webhook_missing_secret_returns_401(
-        self, client, valid_signature, sample_webhook_body
-    ):
+    def test_webhook_missing_secret_returns_401(self, client, valid_signature, sample_webhook_body):
         """Test webhook rejects when secret is not configured."""
         client.app.state.config.tailscale_webhook_secret = ""
 
@@ -197,9 +177,7 @@ class TestWebhookEndpoint:
         assert response.status_code == 401
         assert response.json()["detail"] == "Invalid webhook signature or timestamp"
 
-    def test_webhook_invalid_event_schema_returns_401(
-        self, client, webhook_secret_bytes
-    ):
+    def test_webhook_invalid_event_schema_returns_401(self, client, webhook_secret_bytes):
         """Test invalid event payload triggers webhook verification error."""
         body = json.dumps([{"type": "node.created"}]).encode("utf-8")
         timestamp = int(time.time())

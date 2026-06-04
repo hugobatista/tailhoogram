@@ -110,9 +110,7 @@ class TestTimestampValidation:
 class TestSignatureComputation:
     """Tests for HMAC-SHA256 signature computation."""
 
-    def test_compute_signature_deterministic(
-        self, webhook_secret_bytes, sample_webhook_body
-    ):
+    def test_compute_signature_deterministic(self, webhook_secret_bytes, sample_webhook_body):
         """Test signature computation is deterministic."""
         timestamp = 1705316400
 
@@ -142,9 +140,7 @@ class TestSignatureComputation:
 
         assert sig1 != sig2
 
-    def test_compute_signature_different_timestamps(
-        self, webhook_secret_bytes, sample_webhook_body
-    ):
+    def test_compute_signature_different_timestamps(self, webhook_secret_bytes, sample_webhook_body):
         """Test different timestamps produce different signatures."""
         sig1 = compute_signature(1705316400, sample_webhook_body, webhook_secret_bytes)
         sig2 = compute_signature(1705316401, sample_webhook_body, webhook_secret_bytes)
@@ -167,64 +163,40 @@ class TestSignatureComputation:
 class TestSignatureVerification:
     """Tests for complete signature verification."""
 
-    def test_verify_valid_signature(
-        self, valid_signature, sample_webhook_body, webhook_secret_bytes
-    ):
+    def test_verify_valid_signature(self, valid_signature, sample_webhook_body, webhook_secret_bytes):
         """Test valid signature passes verification."""
-        assert (
-            verify_signature(valid_signature, sample_webhook_body, webhook_secret_bytes)
-            is True
-        )
+        assert verify_signature(valid_signature, sample_webhook_body, webhook_secret_bytes) is True
 
     def test_verify_invalid_signature(self, webhook_secret_bytes, sample_webhook_body):
         """Test invalid signature fails verification."""
         bad_signature = "t=1705316400,v1=badbadbadbadbadbadbadbadbadbadbadbadbadbadbadbadbadbadbadbadbadb"
 
-        assert (
-            verify_signature(bad_signature, sample_webhook_body, webhook_secret_bytes)
-            is False
-        )
+        assert verify_signature(bad_signature, sample_webhook_body, webhook_secret_bytes) is False
 
     def test_verify_signature_wrong_secret(self, valid_signature, sample_webhook_body):
         """Test verification fails with wrong secret."""
         wrong_secret = b"wrong-secret-key"
 
-        assert (
-            verify_signature(valid_signature, sample_webhook_body, wrong_secret)
-            is False
-        )
+        assert verify_signature(valid_signature, sample_webhook_body, wrong_secret) is False
 
-    def test_verify_signature_tampered_body(
-        self, valid_signature, webhook_secret_bytes
-    ):
+    def test_verify_signature_tampered_body(self, valid_signature, webhook_secret_bytes):
         """Test verification fails if body is tampered."""
         tampered_body = b'{"event": "tampered"}'
 
-        assert (
-            verify_signature(valid_signature, tampered_body, webhook_secret_bytes)
-            is False
-        )
+        assert verify_signature(valid_signature, tampered_body, webhook_secret_bytes) is False
 
-    def test_verify_old_timestamp_fails(
-        self, webhook_secret_bytes, sample_webhook_body
-    ):
+    def test_verify_old_timestamp_fails(self, webhook_secret_bytes, sample_webhook_body):
         """Test verification fails for old timestamps."""
         old_timestamp = int(time.time()) - 600  # 10 minutes
         old_signature = f"t={old_timestamp},v1=abc123"
 
-        assert (
-            verify_signature(old_signature, sample_webhook_body, webhook_secret_bytes)
-            is False
-        )
+        assert verify_signature(old_signature, sample_webhook_body, webhook_secret_bytes) is False
 
     def test_verify_malformed_header(self, webhook_secret_bytes, sample_webhook_body):
         """Test verification fails for malformed header."""
         malformed = "invalid-header"
 
-        assert (
-            verify_signature(malformed, sample_webhook_body, webhook_secret_bytes)
-            is False
-        )
+        assert verify_signature(malformed, sample_webhook_body, webhook_secret_bytes) is False
 
 
 @pytest.mark.unit

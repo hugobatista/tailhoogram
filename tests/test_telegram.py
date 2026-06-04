@@ -33,9 +33,7 @@ class TestTelegramChannel:
             raw_data={"nodeID": "12345", "nodeName": "my-laptop"},
         )
 
-    def test_telegram_channel_initialization(
-        self, telegram_channel, telegram_bot_token, telegram_chat_id
-    ):
+    def test_telegram_channel_initialization(self, telegram_channel, telegram_bot_token, telegram_chat_id):
         """Test Telegram channel initializes correctly."""
         assert telegram_channel.bot_token == telegram_bot_token
         assert telegram_channel.chat_id == telegram_chat_id
@@ -50,9 +48,7 @@ class TestTelegramChannel:
         assert "<b>" in message  # HTML formatting
         assert "<code>" in message
 
-    def test_telegram_format_message_without_details(
-        self, telegram_channel, sample_payload
-    ):
+    def test_telegram_format_message_without_details(self, telegram_channel, sample_payload):
         """Test message formatting skips details when raw_data is empty."""
         sample_payload.raw_data = {}
 
@@ -85,9 +81,7 @@ class TestTelegramChannel:
         mock_client.post.assert_called_once()
 
     @pytest.mark.asyncio
-    async def test_telegram_send_failure_http_error(
-        self, telegram_channel, sample_payload
-    ):
+    async def test_telegram_send_failure_http_error(self, telegram_channel, sample_payload):
         """Test Telegram send with HTTP error."""
         mock_client = MagicMock()
         mock_response = MagicMock()
@@ -102,9 +96,7 @@ class TestTelegramChannel:
         assert result is False
 
     @pytest.mark.asyncio
-    async def test_telegram_send_failure_request_error(
-        self, telegram_channel, sample_payload
-    ):
+    async def test_telegram_send_failure_request_error(self, telegram_channel, sample_payload):
         """Test Telegram send with request error."""
         import httpx
 
@@ -117,9 +109,7 @@ class TestTelegramChannel:
         assert result is False
 
     @pytest.mark.asyncio
-    async def test_telegram_send_failure_unexpected_error(
-        self, telegram_channel, sample_payload, monkeypatch
-    ):
+    async def test_telegram_send_failure_unexpected_error(self, telegram_channel, sample_payload, monkeypatch):
         """Test Telegram send handles unexpected errors."""
 
         def boom(_payload):
