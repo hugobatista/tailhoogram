@@ -132,6 +132,10 @@ disallow_incomplete_defs = false
 module = ["asgi", "workers.*"]
 ignore_missing_imports = true
 
+[[tool.mypy.overrides]]
+module = ["pytest", "uvicorn"]
+ignore_missing_imports = true
+
 [tool.hatch.envs.default]
 path = ".venv"
 type = "virtual"
