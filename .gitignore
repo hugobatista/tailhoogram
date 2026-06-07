@@ -41,6 +41,8 @@ venv.bak/
 
 # Testing
 .coverage
+coverage/
+coverage.xml
 .pytest_cache/
 htmlcov/
 .tox/
@@ -50,6 +52,10 @@ htmlcov/
 .env.local
 .env.*.local
 
+
+# Tools
+.mypy_cache/
+.ruff_cache/
 
 # Build artifacts
 dist/

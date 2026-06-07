@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "tailhoogram"
-version = "0.1.1"
+version = "0.1.2"
 description = "Sends Tailscale webhook events to Telegram"
 readme = "README.md"
 requires-python = ">=3.12"
@@ -68,6 +68,7 @@ markers = [
 [tool.coverage.run]
 source = ["src"]
 branch = true
+omit = ["*/__init__.py"]
 
 [tool.coverage.report]
 exclude_lines = [
@@ -83,7 +84,7 @@ precision = 2
 
 [tool.ruff]
 line-length = 120
-target-version = "py311"
+target-version = "py312"
 exclude = [
     ".git",
     "__pycache__",
@@ -103,6 +104,12 @@ quote-style = "double"
 
 [tool.uv]
 required-version = "0.11.18"
+exclude-newer = "30 days"
+
+[[tool.uv.index]]
+name = "pypi"
+url = "https://pypi.org/simple"
+explicit = true
 
 [tool.mypy]
 python_version = "3.12"
